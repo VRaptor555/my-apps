@@ -31,5 +31,7 @@ log['user_id'] = log.user_id.apply(get_user_id)
 # Уберем начальную скобку из поля time.
 log['time'] = log[log.time.str.match("\[", na=False)]['time'].apply(lambda t: str(t).replace('[', ''))
 
+# преобразуем колонку 'time' в формат datetime
+log['time'] = pd.to_datetime(log['time'])
 #users = pd.read_csv("data/users.csv", encoding="KOI8-R", sep="	")
 #users.columns = ['user_id','email','geo']
