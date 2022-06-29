@@ -1,7 +1,7 @@
 import pandas as pd
 import zipfile as zip
 
-files = []
+files = ['SB415_198272_29062022.txt']
 # Загружаем реестры (или один реестр)
 
 def read_write_csv (files):
