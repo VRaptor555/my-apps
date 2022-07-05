@@ -2,18 +2,18 @@ import pandas as pd
 import zipfile as zip
 import os
 
-files = ['SB415_988280_04072022.txt', 'SB415_992152_04072022.txt', 'SB415_963377_04072022.txt']
+catalog = 'data/'
 # Загружаем реестры (или один реестр)
 
 def read_write_csv (files):
     pays = []
     ierror = 0
     for ind, fil in enumerate(files):
-        pays.append(pd.read_csv('./mes/data/' + fil, header=None, sep=';', encoding='Windows-1251'))
+        pays.append(pd.read_csv('data/' + fil, header=None, sep=';', encoding='Windows-1251'))
         if len(pays[ind].columns) < 13:
             ierror = -1
         pays[ind] = pays[ind].drop(8, axis=1)
-        pays[ind].to_csv('./mes/data/' + fil, header=None, sep=';', encoding='Windows-1251', index=False)
+        pays[ind].to_csv('data/' + fil, header=None, sep=';', encoding='Windows-1251', index=False)
     return ierror
 
 files = os.listdir(catalog)
