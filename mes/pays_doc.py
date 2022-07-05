@@ -1,5 +1,6 @@
 import pandas as pd
 import zipfile as zip
+import os
 
 files = ['SB415_988280_04072022.txt', 'SB415_992152_04072022.txt', 'SB415_963377_04072022.txt']
 # Загружаем реестры (или один реестр)
@@ -15,9 +16,10 @@ def read_write_csv (files):
         pays[ind].to_csv('./mes/data/' + fil, header=None, sep=';', encoding='Windows-1251', index=False)
     return ierror
 
+files = os.listdir(catalog)
+reestry = list(filter(lambda x: x.endswith('.txt'), files))
 
-
-ires = read_write_csv(files)
+ires = read_write_csv(reestry)
 if ires == 0:
     print('Удаление столбца прошло без ошибок!')
 else:
