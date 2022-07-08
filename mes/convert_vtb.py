@@ -1,6 +1,9 @@
 import pandas as pd
 import os
 
+# Каталог с файликами, относительно данного файла
+catalog = 'vtb/'
+
 def period_pay(values): # Если период формы 622.00, возвращаем '0622'. Если 1022.00 - возращаем '1022'
     if len(values)>5:
         return values[:4]
@@ -17,7 +20,7 @@ def vtb_convert_to_xlsx(vtb_catalog, vtb_file):
     vtb_itog['Количество'] = vtb_itog['Количество'].apply(lambda s: s[1:3])
 
     # Оставляем в основном DS все кроме итога
-    vtb_data = vtb_data[~vtb_data[0].str.contains('=')] 
+    vtb_data = vtb_data[~vtb_data[0].str.contains('=')]
     vtb_data = vtb_data.drop([1, 2, 3, 4], axis=1)
     vtb_data.columns = ['Дата платежа', 'ЛС', 'ФИО', 'Адрес', 'Период оплаты', 'Сумма операции', 'Сумма перевода', 'Сумма комиссии'] # обзываем колонки
     vtb_data['Период оплаты'] = vtb_data['Период оплаты'].astype('str') # Корректируем период оплаты
@@ -26,9 +29,9 @@ def vtb_convert_to_xlsx(vtb_catalog, vtb_file):
     vtb_data = vtb_data.sort_values('ЛС') # Сортируем по ЛС
 
     # Подсчитываем суммы для сверки с итоговой строкой
-    sum_oper = vtb_data['Сумма операции'].sum()
-    sum_pere = vtb_data['Сумма перевода'].sum()
-    sum_komi = vtb_data['Сумма комиссии'].sum()
+    sum_oper = round(vtb_data['Сумма операции'].sum(), 2)
+    sum_pere = round(vtb_data['Сумма перевода'].sum(), 2)
+    sum_komi = round(vtb_data['Сумма комиссии'].sum(), 2)
 
     if float(vtb_itog['Сумма операции'].astype('float')) == sum_oper and float(vtb_itog['Сумма перевода'].astype('float')) == sum_pere and \
             float(vtb_itog['Сумма комиссии'].astype('float')) == sum_komi and int(vtb_itog['Количество'].astype('float')) == len(vtb_data):
@@ -77,7 +80,6 @@ def vtb_convert_to_xlsx(vtb_catalog, vtb_file):
     writer.close()
     return 0
 
-catalog = 'vtb/'
 # Определяем список файлов в папке
 files = os.listdir(catalog)
 reestry = list(filter(lambda x: x.endswith('.txt'), files))
