@@ -17,7 +17,7 @@ def read_write_zip(z_dir, z_file):
     zipFile = zip.ZipFile(z_dir + z_file, 'r')
     if not (os.path.isdir(z_dir+'out/')):
         os.mkdir(z_dir+'out/')    
-    zipFile_out = zip.ZipFile(z_dir+'out/'+z_file, 'w')
+    zipFile_out = zip.ZipFile(z_dir+'out/'+z_file, 'w', compresslevel=-3)
     list_file = zipFile.namelist()
     for txt_file in list_file:
         zipFile.extract(txt_file)
