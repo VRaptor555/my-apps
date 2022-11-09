@@ -17,7 +17,7 @@ def vtb_convert_to_xlsx(vtb_catalog, vtb_file):
     vtb_itog = vtb_data[vtb_data[0].str.contains('=')]
     vtb_itog = vtb_itog.drop([6,7,8,9,10,11], axis=1)
     vtb_itog.columns = ['Количество', 'Сумма операции', 'Сумма перевода', 'Сумма комиссии', '№п/п', 'Дата'] # Обзываем колонки
-    vtb_itog['Количество'] = vtb_itog['Количество'].apply(lambda s: s[1:3])
+    vtb_itog['Количество'] = vtb_itog['Количество'].apply(lambda s: s[1:4])
 
     # Оставляем в основном DS все кроме итога
     vtb_data = vtb_data[~vtb_data[0].str.contains('=')]
